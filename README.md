@@ -33,5 +33,5 @@ Walkthrough of all user stories:
 Gif Image
 
 
-![Alt Text]()
+![Alt Text](GridImageSearch.gif)
 
