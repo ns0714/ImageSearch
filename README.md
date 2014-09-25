@@ -5,7 +5,7 @@ Codepath assignment 2
 
 This is an Android application which allows users to do image search using google and to select search filters and paginate results infinitely.
 
-Time spent: 10 hours.
+Time spent: 16 hours.
 
 Completed user stories:
 - [x] Required: User can enter a search query that will display a grid of image results from the Google Image API.
