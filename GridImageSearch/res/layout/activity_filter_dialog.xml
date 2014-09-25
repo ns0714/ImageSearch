@@ -5,8 +5,7 @@
 	android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingTop="16dp"
-    android:background="#FFd3d3d3">
+    android:paddingTop="16dp">
 
     <TextView
         android:id="@+id/tvColorFilter"
@@ -15,15 +14,21 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tvImageSize"
         android:layout_marginTop="26dp"
-        android:text="@string/color_filter" />
+        android:text="@string/color_filter"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/tvImageSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="15dp"
-        android:text="@string/image_size" />
+        android:layout_marginTop="25dp"
+        android:text="@string/image_size"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/tvImageType"
@@ -32,7 +37,10 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tvColorFilter"
         android:layout_marginTop="28dp"
-        android:text="@string/image_type" />
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:text="@string/image_type"
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/tvSiteFilter"
@@ -41,37 +49,52 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tvImageType"
         android:layout_marginTop="28dp"
-        android:text="@string/site_filter" />
+        android:text="@string/site_filter"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/black" />
 
     <Spinner
         android:id="@+id/etImageSize"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvImageSize"
         android:layout_alignBottom="@+id/tvImageSize"
         android:layout_toRightOf="@+id/tvImageSize"
         android:entries="@array/image_sizes"
-        android:prompt="@string/image_size"/> 
+        android:prompt="@string/image_size"
+        android:paddingRight="20dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/> 
 
     <Spinner
         android:id="@+id/etColorFilter"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvColorFilter"
         android:layout_alignBottom="@+id/tvColorFilter"
         android:layout_alignLeft="@+id/etImageSize"
         android:entries="@array/image_colors"
-        android:prompt="@string/color_filter"/>
+        android:prompt="@string/color_filter"
+        android:paddingRight="20dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
 
     <Spinner
         android:id="@+id/etImageType"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvImageType"
         android:layout_alignBottom="@+id/tvImageType"
         android:layout_alignLeft="@+id/etColorFilter"
         android:entries="@array/image_types"
-        android:prompt="@string/image_type" />
+        android:prompt="@string/image_type"
+        android:paddingRight="20dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/black" />
 
     <EditText
         android:id="@+id/etSiteFilter"
@@ -79,14 +102,44 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tvSiteFilter"
         android:layout_alignLeft="@+id/etImageType"
-        android:ems="10" />
+        android:ems="10"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/black" />
+    
+    <TextView
+        android:id="@+id/tvAdvancedFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="25dp"
+        android:paddingBottom="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:text="@string/advanced_filters"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnSave"
+        android:layout_alignBottom="@+id/btnSave"
+        android:layout_alignRight="@+id/tvAdvancedFilters"
+        android:background="@color/button_gray"
+        android:text="@string/btn_cancel"
+        android:textColor="@color/black" />
 
     <Button
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etSiteFilter"
-        android:layout_centerHorizontal="true"
-        android:text="@string/btn_save" />
+        android:layout_below="@+id/tvSiteFilter"
+        android:layout_toRightOf="@+id/tvSiteFilter"
+        android:background="@color/button_gray"
+        android:text="@string/btn_save"
+        android:textColor="@color/black" />
 
 </RelativeLayout>

@@ -6,6 +6,6 @@
           android:label="@string/search_query"
           android:icon="@drawable/ic_action_search"
           android:showAsAction="ifRoom|collapseActionView"
-          android:actionViewClass="com.actionbarsherlock.widget.SearchView" />
+          android:actionViewClass="android.widget.SearchView" />
 
 </menu>

@@ -7,28 +7,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView;
-import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 import com.codepath.gridimagesearch.R;
 import com.codepath.gridimagesearch.adapter.ImageResultsAdapter;
 import com.codepath.gridimagesearch.dialog.FilterDialog;
@@ -41,7 +38,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-public class SearchActivity extends SherlockFragmentActivity implements FilterDialogListener {
+public class SearchActivity extends FragmentActivity implements
+		FilterDialogListener {
 	private SearchView searchView;
 	private StaggeredGridView gvResults;
 	private ArrayList<ImageResult> imageResults;
@@ -58,10 +56,11 @@ public class SearchActivity extends SherlockFragmentActivity implements FilterDi
 		setupView();
 		imageResults = new ArrayList<ImageResult>();
 		aImageResults = new ImageResultsAdapter(this, imageResults);
+
 		gvResults.setAdapter(aImageResults);
 		if (!isNetworkAvailable()) {
-			Toast.makeText(this, "No network available", Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(this, getResources().getString(R.string.no_network),
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -95,8 +94,6 @@ public class SearchActivity extends SherlockFragmentActivity implements FilterDi
 				makeNetworkCall();
 			}
 		});
-		getCustomizedActionBar();
-
 	}
 
 	public void makeNetworkCall() {
@@ -131,10 +128,13 @@ public class SearchActivity extends SherlockFragmentActivity implements FilterDi
 					try {
 						imageResultsJson = response.getJSONObject(
 								"responseData").getJSONArray("results");
-						if (imageResultsJson.length() == 0) {
-							Toast.makeText(getBaseContext(),
-									"No results found", Toast.LENGTH_SHORT)
-									.show();
+						if (imageResultsJson == null
+								|| imageResultsJson.length() == 0) {
+							Toast.makeText(
+									getBaseContext(),
+									getResources().getString(
+											R.string.no_results),
+									Toast.LENGTH_SHORT).show();
 							return;
 						}
 						aImageResults.addAll(ImageResult
@@ -144,12 +144,25 @@ public class SearchActivity extends SherlockFragmentActivity implements FilterDi
 						e.printStackTrace();
 					}
 					Log.d("INFO", imageResults.toString());
+				}
+
+				@Override
+				public void onFailure(int statusCode, Header[] headers,
+						Throwable throwable, JSONObject errorResponse) {
+					// TODO Auto-generated method stub
+					Toast.makeText(getBaseContext(),
+							getResources().getString(R.string.no_results),
+							Toast.LENGTH_SHORT).show();
+					super.onFailure(statusCode, headers, throwable,
+							errorResponse);
 				};
 			});
-		}else{
-			Toast.makeText(this, "No Network available", Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(this, getResources().getString(R.string.no_network),
+					Toast.LENGTH_SHORT).show();
 		}
 	}
+
 	public void newImageSearch() {
 		start = 0;
 		imageResults.clear();
@@ -157,27 +170,13 @@ public class SearchActivity extends SherlockFragmentActivity implements FilterDi
 		makeNetworkCall();
 	}
 
-	private void getCustomizedActionBar() {
-		ActionBar actBar = getActionBar();
-		ColorDrawable colorDrawable = new ColorDrawable(
-				Color.parseColor("#FF949494"));
-		actBar.setBackgroundDrawable(colorDrawable);
-		/*
-		 * int titleId = getResources().getIdentifier("action_bar_title", "id",
-		 * "android"); TextView instaView = (TextView) findViewById(titleId);
-		 * Typeface font = Typeface.createFromAsset(getAssets(),
-		 * "fonts/TR Lucida Handwriting Italic.ttf");
-		 * instaView.setTypeface(font);
-		 */
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getSupportMenuInflater();
+		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.action_search, menu);
 		MenuItem searchItem = menu.findItem(R.id.action_search);
 
-		MenuInflater settingsMenu = getSupportMenuInflater();
+		MenuInflater settingsMenu = getMenuInflater();
 		settingsMenu.inflate(R.menu.search_settings, menu);
 
 		searchView = (SearchView) searchItem.getActionView();
@@ -186,9 +185,9 @@ public class SearchActivity extends SherlockFragmentActivity implements FilterDi
 			public boolean onQueryTextSubmit(String query) {
 				// perform query here
 				srchQuery = query.trim();
-				
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+
+				InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				im.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
 				newImageSearch();
 				return true;
 			}
@@ -207,9 +206,6 @@ public class SearchActivity extends SherlockFragmentActivity implements FilterDi
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case R.id.settings:
-			Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
-			/*Intent i = new Intent(this, FilterDialogActivity.class);
-			startActivityForResult(i, 50);*/
 			FragmentManager frag = getSupportFragmentManager();
 			FilterDialog diag = FilterDialog.newInstance("Advanced Filters");
 			diag.show(frag, "activity_filter_dialog");
@@ -218,16 +214,13 @@ public class SearchActivity extends SherlockFragmentActivity implements FilterDi
 		return false;
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		if (requestCode == 50) {
-			if (resultCode == RESULT_OK) {
-				imgFilter = (ImageFilter) data.getSerializableExtra("filter");
-				newImageSearch();
-			}
-		}
-	}
+	/*
+	 * @Override protected void onActivityResult(int requestCode, int
+	 * resultCode, Intent data) { // TODO Auto-generated method stub if
+	 * (requestCode == 50) { if (resultCode == RESULT_OK) { imgFilter =
+	 * (ImageFilter) data.getSerializableExtra("filter"); newImageSearch(); } }
+	 * }
+	 */
 
 	private Boolean isNetworkAvailable() {
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

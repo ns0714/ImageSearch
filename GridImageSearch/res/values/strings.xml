@@ -12,37 +12,11 @@
     <string name="image_type">Image Type</string>
     <string name="site_filter">Site Filter</string>
     <string name="btn_save">Save</string>
-
-    <string-array name="image_sizes">
-        <item>any</item>
-        <item>small</item>
-        <item>medium</item>
-        <item>large</item>
-        <item>xlarge</item>
-    </string-array>
-    <string-array name="image_colors">
-        <item>any</item>
-        <item>blue</item>
-        <item>brown</item>
-        <item>gray</item>
-        <item>green</item>
-        <item>orange</item>
-        <item>pink</item>
-        <item>purple</item>
-        <item>black</item>
-        <item>red</item>
-        <item>teal</item>
-        <item>white</item>
-        <item>yellow</item>
-    </string-array>
-    <string-array name="image_types">
-        <item>any</item>
-        <item>face</item>
-        <item>photo</item>
-        <item>clipart</item>
-        <item>lineart</item>
-    </string-array>
-
+    <string name="btn_cancel">Cancel</string>
+    <string name="no_network">No network available</string>
+    <string name="no_results">No results found</string>
+    <string name="error_fullimage">Error loading full image</string>
+    <string name="error_sharing">Sharing failed</string>
     <string name="title_activity_filter_dialog">FilterDialogActivity</string>
 
 </resources>

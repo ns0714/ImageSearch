@@ -7,13 +7,14 @@ import java.io.IOException;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Html;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -27,38 +28,37 @@ import com.squareup.picasso.Picasso;
 
 public class ImageDisplayActivity extends Activity {
 
+	private ImageResult result;
 	private TouchImageView ivImageResult;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_image_display);
 		
-		//DisplayMetrics metrics = this.getResources().getDisplayMetrics();
-		//int screenWidth = metrics.widthPixels;
-		//int screenHeight = metrics.heightPixels;
-		
-		ImageResult result = (ImageResult) getIntent().getSerializableExtra("result");
-		//int imageResizeWidth = screenWidth - 100;
-		//int imageResizeHeight = (imageResizeWidth * result.getHeight()) / result.getWidth();
+		result = (ImageResult) getIntent().getSerializableExtra("result");
 
 		ivImageResult = (TouchImageView)findViewById(R.id.ivImageResult);
 		Picasso.with(this).load(result.getFullUrl()).resize(600, 600).into(ivImageResult, new Callback() {
 			
 			@Override
 			public void onSuccess() {
-				//onShareItem();				
 			}
 			
 			@Override
 			public void onError() {
-				//handle image load error
 				Toast.makeText(ImageDisplayActivity.this, 
-						"Error", Toast.LENGTH_LONG).show();
+						getResources().getString(R.string.error_fullimage), Toast.LENGTH_LONG).show();
 			}
 		});
-		getActionBar().setTitle(Html.fromHtml(result.getTitle()));
+		getCustomizedActionBar();
 	}
 	
+	void getCustomizedActionBar(){
+		ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.transperant_white));
+		getActionBar().setBackgroundDrawable(colorDrawable);
+		getActionBar().setTitle(Html.fromHtml(
+				"<font color='#4F4F4F'>"+ result.getTitle()+"</font>"));
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
@@ -71,7 +71,6 @@ public class ImageDisplayActivity extends Activity {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case R.id.share:
-			//Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show();
 			onShareItem();
 			return true;
 		}
@@ -92,7 +91,8 @@ public class ImageDisplayActivity extends Activity {
 	        // Launch sharing dialog for image
 	        startActivity(Intent.createChooser(shareIntent, "Share Image"));	
 	    } else {
-	    	Toast.makeText(getApplicationContext(), "Sharing failed", Toast.LENGTH_SHORT).show();
+	    	Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_sharing), 
+	    			Toast.LENGTH_SHORT).show();
 	    }
 	}
 
